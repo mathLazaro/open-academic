@@ -1,4 +1,4 @@
-# 🔗 Modelagem de Banco de Dados para Sistema Acadêmico
+# 🗃️ Modelagem de Banco de Dados para Sistema Acadêmico
 Projeto desenvolvido para a disciplina **Banco de Dados II** da Universidade Federal de Itajubá, implementando um sistema de relatórios *ad hoc* com integração à API OpenAlex
 
 ## ⚙️ Tarefas envolvidas
