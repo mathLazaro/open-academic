@@ -1,13 +1,13 @@
 # Modelagem de Banco de Dados para Sistema Acadêmico
-Projeto desenvolvido para a disciplina **Banco de Dados II** (SPAD02) da Universidade Federal de Itajubá, implementando um sistema de relatórios *ad hoc* com integração à API OpenAlex.
+Projeto desenvolvido para a disciplina **Banco de Dados II** (SPAD02) da Universidade Federal de Itajubá, implementando um sistema de relatórios *ad hoc* com integração à API OpenAlex
 
 ## Tarefas envolvidas
 
 ### Modelagem Conceitual e Lógica
-. Análise da API OpenAlex
-. Definição do Modelo Entidade-Relacionamento:
+- Análise da API OpenAlex  
+- Definição do Modelo Entidade-Relacionamento  
 
-Principais Entidades:
+Principais Entidades:  
   
 | Entidade          | Descrição                                 | Campos Chave |
 |-------------------|-------------------------------------------|--------------|
@@ -17,7 +17,7 @@ Principais Entidades:
 | `tb_topics`       | Tópicos de pesquisa                       | `id`         |
 
 ### Implementação Física do Banco de Dados
-Utilizando o postgreSQL
-. Script SQL para criar tabelas, constraints e índices.
+Utilizando o postgreSQL  
+- Script SQL para criar tabelas, constraints e índices  
 
 ## Descrição dos arquivos
