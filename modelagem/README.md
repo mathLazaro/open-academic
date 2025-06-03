@@ -1,7 +1,7 @@
-# Modelagem de Banco de Dados para Sistema Acadêmico
+# 🔗 Modelagem de Banco de Dados para Sistema Acadêmico
 Projeto desenvolvido para a disciplina **Banco de Dados II** da Universidade Federal de Itajubá, implementando um sistema de relatórios *ad hoc* com integração à API OpenAlex
 
-## Tarefas envolvidas
+## ⚙️ Tarefas envolvidas
 
 ### Modelagem Conceitual e Lógica
 - Análise da API OpenAlex  
@@ -20,7 +20,7 @@ Principais Entidades:
 Utilizando o postgreSQL  
 - Script SQL para criar tabelas, constraints e índices  
 
-## Descrição dos arquivos
+## 📚 Descrição dos arquivos
 1. [MER](./modelagem/entidade_relacionamento.pdf)  
    *(Modelo Entidade-Relacionamento)*  
 2. [Script SQL Principal](./modelagem/modelagem_fisica.sql)  
