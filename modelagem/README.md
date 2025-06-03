@@ -21,3 +21,11 @@ Utilizando o postgreSQL
 - Script SQL para criar tabelas, constraints e índices  
 
 ## Descrição dos arquivos
+1. [MER](./modelagem/entidade_relacionamento.pdf)  
+   *(Modelo Entidade-Relacionamento completo em PDF)*  
+2. [Script SQL Principal](./modelagem/modelagem_fisica.sql)  
+   *(Script SQL para criar o Banco de Dados)*  
+3. [Dicionário de Dados](./modelagem/dicionario_dados.md)  
+   *(Catálogo de Metadados)*  
+4. [Modelo Relacional](./modelagem/modelo_relacional.md)  
+   *(Esquema Modelo Relacional)*  
