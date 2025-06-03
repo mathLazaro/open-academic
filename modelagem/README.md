@@ -22,7 +22,7 @@ Utilizando o postgreSQL
 
 ## Descrição dos arquivos
 1. [MER](./modelagem/entidade_relacionamento.pdf)  
-   *(Modelo Entidade-Relacionamento completo em PDF)*  
+   *(Modelo Entidade-Relacionamento)*  
 2. [Script SQL Principal](./modelagem/modelagem_fisica.sql)  
    *(Script SQL para criar o Banco de Dados)*  
 3. [Dicionário de Dados](./modelagem/dicionario_dados.md)  
