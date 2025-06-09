@@ -1,83 +1,116 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from api_request import fetch_data
-from dao import DatabaseConnection, insert_batch_data, select_data
+import sys
 
-CHUNK_SIZE = 50
-
-
-def get_params(ids):
-    id_param = '|'.join(ids)
-    return {
-        'filter': 'id:' + id_param,
-        'per-page': 200,
-        'mailto': 'matheus.lazaro@outlook.com'
-    }
+from utils import fetch_data, get_chunk_list
+from dao import insert_batch_data, select_data, select_join
 
 
-def get_chunk_list(lst, chunk_size):
-    for i in range(0, len(lst), chunk_size):
-        yield lst[i:i + chunk_size]
-
-
-def pipeline(conn, author_ids):
+def get_from_database():
     try:
-        authors = []
-        params = get_params(author_ids)
+        data = select_join(
+            select='distinct(author_id)',
+            table1='tb_authorships',
+            table2='tb_authors',
+            on='tb_authorships.author_id = tb_authors.id',
+            misc='limit 50000',
+            where='tb_authors.id is null',
+            join_type='LEFT JOIN'
+        )
+        return [item.get('author_id') for item in data]
+    except Exception as e:
+        print(f"Error fetching author IDs from database: {e}")
+        sys.exit(1)
 
-        data = fetch_data('authors', params).get('results', [])
 
-        if not data:
-            print("No more author data.")
-            return
+def save_to_database(entities):
+    try:
+        insert_batch_data(
+            table='tb_authors',
+            data=entities
+        )
+        print(f'Saved {len(entities)} author entities to the database')
+    except Exception as e:
+        print(f"An error occurred while saving to the database: {e}")
+        sys.exit(1)
 
-        authors.extend([{
-            'id': item.get('id'),
-            'name': item.get('display_name'),
-            'works_count': item.get('works_count'),
-            'cited_by_count': item.get('cited_by_count')
-        } for item in data if item.get('id') and item.get('display_name')])
 
-        with conn.get_cursor() as cursor:
-            if authors:
-                insert_batch_data(cursor, 'tb_authors', authors)
+def extract(ids) -> list:
+    try:
+        print(f'Fetching author data from chunk')
+        return fetch_data('authors', f'id:{'|'.join(ids)}').get('results', [])
     except Exception as e:
         print(f"Error fetching author data: {e}")
+        sys.exit(1)
 
 
-def etl(conn: DatabaseConnection):
-    with conn.get_cursor() as cursor:
-        authorship_staging = select_data(
-            cursor,
-            'author_id',
-            'staging.authorship_work_ids',
-            'processed = FALSE'
-        )
+def pipeline(authors) -> list:
+    authors_entities = []
+    id_added = set()
+    try:
+        for item in authors:
+            if item.get('id') and item.get('display_name'):
+                id = item.get('id')
+                if id in id_added:
+                    continue
+                obj  = {
+                    'id': id,
+                    'name': item.get('display_name', ' - '),
+                    'works_count': item.get('works_count', 0),
+                    'cited_by_count': item.get('cited_by_count', 0)
+                }
+                if obj not in authors_entities:
+                    id_added.add(id)
+                    authors_entities.append(obj)
+        return authors_entities
+    except Exception as e:
+        print(f"Error fetching author data: {e}")
+        sys.exit(1)
 
-        author_id_list = list({item['author_id']
-                              for item in authorship_staging})
 
-        with ThreadPoolExecutor(max_workers=10) as executor:
-            futures = []
-            for chunk in get_chunk_list(author_id_list, CHUNK_SIZE):
-                futures.append(executor.submit(pipeline, conn, chunk))
-                print(f'Processing author chunk: {chunk}')
+def etl(data):
+    fetched_data = []
+    print('Fetching author from API')
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = []
+        for chunk in get_chunk_list(data):
+            futures.append(executor.submit(extract, chunk))
 
-            for future in as_completed(futures):
-                try:
-                    future.result()
-                except Exception as exc:
-                    print(f'Erro na thread: {exc}')
+        for future in as_completed(futures):
+            try:
+                fetched_data.extend(future.result())
+            except Exception as exc:
+                print(f'Erro na thread: {exc}')
+
+    if not fetched_data:
+        print("No author data fetched from the API.")
+        sys.exit(1)
+
+    author_entities = []
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = []
+        for chunk in get_chunk_list(fetched_data):
+            futures.append(executor.submit(pipeline, chunk))
+            print(f'Processing author chunk')
+
+        for future in as_completed(futures):
+            try:
+                author_entities.extend(future.result())
+            except Exception as exc:
+                print(f'Erro na thread: {exc}')
+
+    if not author_entities:
+        print("No author entities processed in the pipeline.")
+        sys.exit(1)
+
+    save_to_database(author_entities)
 
 
 if __name__ == "__main__":
     try:
-        conn = DatabaseConnection()
-        conn.open_connection()
-        if not conn.is_open():
-            Exception("Database connection is not open.")
-
-        etl(conn)
-
-        conn.close_connection()
+        data = get_from_database()
+        if data:
+            for chunk in get_chunk_list(data, chunk_size=5000):
+                print(f'Processing chunk of {len(chunk)} author IDs')
+                etl(chunk)
     except Exception as e:
         print(f"An error occurred in the ETL pipeline: {e}")

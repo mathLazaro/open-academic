@@ -29,3 +29,9 @@ create table staging.map_organization_ror_id(
 );
 
 create index idx_map_organization_ror_id_id on staging.map_organization_ror_id using btree (id);
+
+select * from tb_domains
+
+select * from tb_topic_keywords
+
+delete from tb_topics
