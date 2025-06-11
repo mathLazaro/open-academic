@@ -80,7 +80,6 @@ Armazena as informações das organizações que se relacionam com os trabalhos 
 | ---------------- | ------- | ------------ | --------------------------------------------------------- |
 | `id`             | VARCHAR | Sim          | **PK** ID ROR da organização                              |
 | `name`           | VARCHAR | Sim          | Nome da organização                                       |
-| `acronyms`       | VARCHAR | Sim          | Acronimos                                                 |
 | `city`           | VARCHAR | Sim          | Cidade                                                    |
 | `country`        | VARCHAR | Sim          | País                                                      |
 | `country_code`   | VARCHAR | Sim          | Código do país                                            |
@@ -106,7 +105,6 @@ Tabela de especialização da organização
 | ----------------- | ------- | ------------ | ------------------------------------------------------------------------------------------------------------------ |
 | `id`              | VARCHAR | Sim          | **PK** - ID de Publisher/Funder/Instituition no OpenAlex (ex: `https://api.openalex.org/institutions/I1290206253`) |
 | `organization_id` | VARCHAR | Sim          | **PK**/**FK** ID ROR da organização (Referencia `tb_organization.id`)                                              |
-| `name`            | VARCHAR | Sim          | Nome da organização (cada organização especializada possui um nome diferente)                                      |
 | `role`            | ENUM    | Sim          | Tipo da organização (`INSTITUTION`, `PUBLISHER`, `FUNDER`)                                                         |
 | `works_count`     | INT     | Não          | Quantidade de obras da organização por tipo (na API) (default = 0)                                                 |
 
@@ -180,7 +178,7 @@ Relaciona a autoria das obras com autores e instituições.
 
     PRIMARY KEY (work_id, author_id, instituition_id)
 
-### tb_work_organization
+### tb_work_organizations
 
 Relaciona as obras acadêmicas com as organizações financiadoras/editoras.
 
@@ -204,11 +202,12 @@ Relaciona as obras acadêmicas com seus tópicos de pesquisa.
 | `work_id`  | VARCHAR | Sim          | **FK** - Referencia `tb_works.id`                                             |
 | `score`    | REAL    | Não          | Score da relação entre o tópico (gerado pela API através de IA) (default = 0) |
 
-### tb_instituition_domains
+### tb_organization_domains
 
-Relaciona os domínios de pesquisa com as instituições.
+Relaciona os domínios de pesquisa com as organizações.
 
 | Campo             | Tipo    | Obrigatório? | Descrição                                |
 | ----------------- | ------- | ------------ | ---------------------------------------- |
-| `instituition_id` | VARCHAR | Sim          | **FK** - Referencia `tb_organization.id` |
+| `organization_id` | VARCHAR | Sim          | **FK** - Referencia `tb_organization.id` |
 | `domain_id`       | VARCHAR | Sim          | **FK** - Referencia `tb_domain.id`       |
+
