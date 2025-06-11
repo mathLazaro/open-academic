@@ -25,6 +25,7 @@ def extract(next):
 
 
 def pipeline(item):
+    print(f'Processing item with ID: {item.get("id")}')
     work_entity = None
     authorship_entities = []
     topic_entities = []
@@ -58,7 +59,7 @@ def pipeline(item):
                 obj = {
                     'work_id': item.get('id'),
                     'author_id': author.get('id'),
-                    'instituition_id': institutions[0].get('ror') if institutions else None
+                    'institution_id': institutions[0].get('ror') if institutions else None
                 }
                 if obj not in authorship_entities:
                     authorship_entities.append(obj)
