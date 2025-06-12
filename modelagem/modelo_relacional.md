@@ -31,6 +31,6 @@ Work_Topics (work_id, topic_id, score) <br>
 *work_id references Works(id)* <br>
 *topic_id references Topics(id)*
 
-Instituition_Domains (instituition_id, domain_id) <br>
-*instituition_id references Organizations(id)* <br>
+Organization_Domains (organization_id, domain_id) <br>
+*organization_id references Organizations(id)* <br>
 *domain_id references Domains(id)*
