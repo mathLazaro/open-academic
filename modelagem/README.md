@@ -21,7 +21,7 @@ Utilizando o postgreSQL
 - Script SQL para criar tabelas, constraints e índices  
 
 ## 📚 Descrição dos arquivos
-1. [MER](./modelagem/entidade_relacionamento.pdf)  
+1. [MER](./entidade_relacionamento.pdf)  
    *(Modelo Entidade-Relacionamento)*  
 2. [Script SQL Principal](./modelagem/modelagem_fisica.sql)  
    *(Script SQL para criar o Banco de Dados)*  
