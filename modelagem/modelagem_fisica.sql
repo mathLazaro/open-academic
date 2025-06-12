@@ -233,6 +233,8 @@ JOIN tb_roles r ON r.organization_id = od.organization_id
 GROUP BY o.id, o.name, d.id, d.title
 ORDER BY total_works DESC;
 
+
+
 -- Criando users
 CREATE USER desenvolvedor WITH PASSWORD 'postgres';
 CREATE USER dba WITH PASSWORD 'postgres';
