@@ -103,14 +103,13 @@ Tabela de especialização da organização
 
 | Campo             | Tipo    | Obrigatório? | Descrição                                                                                                          |
 | ----------------- | ------- | ------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `id`              | VARCHAR | Sim          | **PK** - ID de Publisher/Funder/Instituition no OpenAlex (ex: `https://api.openalex.org/institutions/I1290206253`) |
 | `organization_id` | VARCHAR | Sim          | **PK**/**FK** ID ROR da organização (Referencia `tb_organization.id`)                                              |
-| `role`            | ENUM    | Sim          | Tipo da organização (`INSTITUTION`, `PUBLISHER`, `FUNDER`)                                                         |
+| `role`            | ENUM    | Sim          | **PK** Tipo da organização (`INSTITUTION`, `PUBLISHER`, `FUNDER`)                                                         |
 | `works_count`     | INT     | Não          | Quantidade de obras da organização por tipo (na API) (default = 0)                                                 |
 
 ### Constraints
 
-    UNIQUE (organization_id, role)
+    PRIMARY KEY (organization_id, role)
 
 <hr>
 
