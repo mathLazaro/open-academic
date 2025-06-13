@@ -65,7 +65,7 @@ Campos de estudos (ex.: Medicina, Biologia)
 
 | Campo      | Tipo    | Obrigatório? | Descrição                                  |
 | ---------- | ------- | ------------ | ------------------------------------------ |
-| `topic_id` | VARCHAR | Sim          | **PK** / **FK** - Referencia `tb_topic.id` |
+| `topic_id` | VARCHAR | Sim          | **PK**/**FK** - Referencia `tb_topic.id`   |
 | `word`     | VARCHAR | Sim          | **PK** Palavra chave                       |
 
 <hr>
@@ -103,13 +103,9 @@ Tabela de especialização da organização
 
 | Campo             | Tipo    | Obrigatório? | Descrição                                                                                                          |
 | ----------------- | ------- | ------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `organization_id` | VARCHAR | Sim          | **PK**/**FK** ID ROR da organização (Referencia `tb_organization.id`)                                              |
+| `organization_id` | VARCHAR | Sim          | **PK**/**FK** - ID ROR da organização (Referencia `tb_organization.id`)                                              |
 | `role`            | ENUM    | Sim          | **PK** Tipo da organização (`INSTITUTION`, `PUBLISHER`, `FUNDER`)                                                         |
 | `works_count`     | INT     | Não          | Quantidade de obras da organização por tipo (na API) (default = 0)                                                 |
-
-### Constraints
-
-    PRIMARY KEY (organization_id, role)
 
 <hr>
 
@@ -169,13 +165,9 @@ Relaciona a autoria das obras com autores e instituições.
 
 | Campo             | Tipo    | Obrigatório? | Descrição                                |
 | ----------------- | ------- | ------------ | ---------------------------------------- |
-| `work_id`         | VARCHAR | Sim          | **FK** - Referencia `tb_works.id`        |
-| `author_id`       | VARCHAR | Sim          | **FK** - Referencia `tb_authors.id`      |
-| `instituition_id` | VARCHAR | Não          | **FK** - Referencia `tb_organization.id` |
-
-### Constraints
-
-    PRIMARY KEY (work_id, author_id, instituition_id)
+| `work_id`         | VARCHAR | Sim          | **PK**/**FK** - Referencia `tb_works.id`        |
+| `author_id`       | VARCHAR | Sim          | **PK**/**FK** - Referencia `tb_authors.id`      |
+| `instituition_id` | VARCHAR | Não          | **PK**/**FK** - Referencia `tb_organization.id` |
 
 ### tb_work_organizations
 
@@ -183,13 +175,9 @@ Relaciona as obras acadêmicas com as organizações financiadoras/editoras.
 
 | Campo             | Tipo    | Obrigatório? | Descrição                                             |
 | ----------------- | ------- | ------------ | ----------------------------------------------------- |
-| `work_id`         | VARCHAR | Sim          | **FK** – Referência `tb_works.id`                     |
-| `organization_id` | VARCHAR | Sim          | **FK** – Referência `tb_organizations.id`             |
-| `role_type`       | ENUM    | Sim          | Papel da organização na obra: {`FUNDER`, `PUBLISHER`} |
-
-### Constraints
-
-    PRIMARY KEY (work_id, organization_id, role_type)
+| `work_id`         | VARCHAR | Sim          | **PK**/**FK** – Referência `tb_works.id`                     |
+| `organization_id` | VARCHAR | Sim          | **PK**/**FK** – Referência `tb_organizations.id`             |
+| `role_type`       | ENUM    | Sim          | **PK** - Papel da organização na obra: {`FUNDER`, `PUBLISHER`} |
 
 ### tb_work_topics
 
@@ -197,8 +185,8 @@ Relaciona as obras acadêmicas com seus tópicos de pesquisa.
 
 | Campo      | Tipo    | Obrigatório? | Descrição                                                                     |
 | ---------- | ------- | ------------ | ----------------------------------------------------------------------------- |
-| `topic_id` | VARCHAR | Sim          | **FK** - Referencia `tb_topics.id`                                            |
-| `work_id`  | VARCHAR | Sim          | **FK** - Referencia `tb_works.id`                                             |
+| `topic_id` | VARCHAR | Sim          | **PK**/**FK** - Referencia `tb_topics.id`                                            |
+| `work_id`  | VARCHAR | Sim          | **PK**/**FK** - Referencia `tb_works.id`                                             |
 | `score`    | REAL    | Não          | Score da relação entre o tópico (gerado pela API através de IA) (default = 0) |
 
 ### tb_organization_domains
@@ -207,6 +195,5 @@ Relaciona os domínios de pesquisa com as organizações.
 
 | Campo             | Tipo    | Obrigatório? | Descrição                                |
 | ----------------- | ------- | ------------ | ---------------------------------------- |
-| `organization_id` | VARCHAR | Sim          | **FK** - Referencia `tb_organization.id` |
-| `domain_id`       | VARCHAR | Sim          | **FK** - Referencia `tb_domain.id`       |
-
+| `organization_id` | VARCHAR | Sim          | **PK**/**FK** - Referencia `tb_organization.id` |
+| `domain_id`       | VARCHAR | Sim          | **PK**/**FK** - Referencia `tb_domain.id`       |
