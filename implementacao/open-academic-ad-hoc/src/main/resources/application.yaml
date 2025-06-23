@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: open-academic-ad-hoc
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/open_academic
+    username: desenvolvedor
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+logging:
+  level:
+    org.hibernate.sql: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.hibernate.type.descriptor.sql.DdlType: DEBUG
