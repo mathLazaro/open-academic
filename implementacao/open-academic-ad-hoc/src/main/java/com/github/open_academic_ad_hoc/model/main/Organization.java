@@ -1,49 +1,64 @@
 package com.github.open_academic_ad_hoc.model.main;
 
+import com.github.open_academic_ad_hoc.model.relation.Authorship;
 import com.github.open_academic_ad_hoc.model.relation.WorkOrganization;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_organizations")
 public class Organization {
 
     @Id
+    @Column(name = "id", nullable = false, length = Integer.MAX_VALUE)
     private String id;
 
+    @Column(name = "name", length = Integer.MAX_VALUE)
     private String name;
 
+    @Column(name = "city", length = Integer.MAX_VALUE)
     private String city;
 
+    @Column(name = "country", length = Integer.MAX_VALUE)
     private String country;
 
+    @Column(name = "country_code", length = Integer.MAX_VALUE)
     private String countryCode;
 
+    @ColumnDefault("0")
+    @Column(name = "works_count")
     private Integer worksCount;
 
+    @ColumnDefault("0")
+    @Column(name = "cited_by_count")
     private Integer citedByCount;
 
-    @OneToMany(mappedBy = "organization")
-    private List<Role> roles;
-
-    @OneToMany(mappedBy = "organization")
-    private List<WorkOrganization> workOrganizations;
+    @OneToMany(mappedBy = "institution")
+    private Set<Authorship> authorships = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(
-        name = "tb_organization_domains",
-        joinColumns = @JoinColumn(name = "organization_id"),
-        inverseJoinColumns = @JoinColumn(name = "domain_id")
+            name = "tb_organization_domains",
+            joinColumns = @JoinColumn(name = "organization_id"),
+            inverseJoinColumns = @JoinColumn(name = "domain_id")
     )
-    private List<Domain> domains;
+    private Set<Domain> domains;
+
+    @OneToMany(mappedBy = "organization")
+    private Set<Role> roles = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "organization")
+    private Set<WorkOrganization> workOrganizations = new LinkedHashSet<>();
 
 }

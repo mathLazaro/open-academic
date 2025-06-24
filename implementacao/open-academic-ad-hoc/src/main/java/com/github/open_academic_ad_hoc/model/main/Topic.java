@@ -6,37 +6,43 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_topics")
 public class Topic {
 
     @Id
+    @Column(name = "id", nullable = false, length = Integer.MAX_VALUE)
     private String id;
 
+    @Column(name = "title", nullable = false, length = Integer.MAX_VALUE)
     private String title;
 
+    @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
+    @ColumnDefault("0")
+    @Column(name = "works_count")
     private Integer worksCount;
 
-    @ManyToOne
-    @JoinColumn(name = "field_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "field_id", nullable = false)
     private Field field;
-
-    @OneToMany(mappedBy = "topic")
-    private List<WorkTopic> workTopics;
 
     @ElementCollection
     @CollectionTable(name = "tb_topic_keywords", joinColumns = @JoinColumn(name = "topic_id"))
     @Column(name = "word")
     private Set<String> keywords;
+
+    @OneToMany(mappedBy = "topic")
+    private Set<WorkTopic> workTopics = new LinkedHashSet<>();
 
 }

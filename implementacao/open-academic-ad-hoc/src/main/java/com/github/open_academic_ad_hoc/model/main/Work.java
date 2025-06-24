@@ -9,48 +9,57 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_works")
 public class Work {
 
     @Id
+    @Column(name = "id", nullable = false, length = Integer.MAX_VALUE)
     private String id;
 
+    @Column(name = "title", nullable = false, length = Integer.MAX_VALUE)
     private String title;
 
+    @ColumnDefault("false")
+    @Column(name = "is_open")
     private Boolean isOpen;
 
+    @ColumnDefault("0")
+    @Column(name = "referenced_works_count")
     private Integer referencedWorksCount;
 
+    @ColumnDefault("0")
+    @Column(name = "cited_by_count")
     private Integer citedByCount;
 
-    private Double fwci;
+    @ColumnDefault("0")
+    @Column(name = "fwci")
+    private Float fwci;
 
+    @Column(name = "publish_date", nullable = false)
     private LocalDate publishDate;
 
+    @OneToMany(mappedBy = "work")
+    private Set<Authorship> authorships = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "work")
+    private Set<WorkOrganization> workOrganizations = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "work")
+    private Set<WorkTopic> workTopics = new LinkedHashSet<>();
+
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private WorkType type;
 
-    @OneToMany(mappedBy = "work")
-    private List<Authorship> authorships;
-
-    @OneToMany(mappedBy = "work")
-    private List<WorkOrganization> organizations;
-
-    @OneToMany(mappedBy = "work")
-    private List<WorkTopic> topics;
-
-
 }
-
-
-
-

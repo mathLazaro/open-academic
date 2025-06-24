@@ -5,31 +5,37 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_domains")
 public class Domain {
 
     @Id
+    @Column(name = "id", nullable = false, length = Integer.MAX_VALUE)
     private String id;
 
+    @Column(name = "title", nullable = false, length = Integer.MAX_VALUE)
     private String title;
 
+    @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
+    @ColumnDefault("0")
+    @Column(name = "works_count")
     private Integer worksCount;
 
     @OneToMany(mappedBy = "domain")
-    private List<Field> fields = new ArrayList<>();
+    private Set<Field> fields = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "domains")
-    private List<Organization> organizations = new ArrayList<>();
+    private Set<Organization> organizations = new LinkedHashSet<>();
 
 }

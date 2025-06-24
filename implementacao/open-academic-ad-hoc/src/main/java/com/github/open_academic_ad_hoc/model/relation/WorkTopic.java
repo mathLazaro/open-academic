@@ -8,26 +8,31 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "tb_topics")
+@Table(name = "tb_work_topics")
 public class WorkTopic {
 
     @EmbeddedId
     private WorkTopicId id;
 
-    @ManyToOne
-    @MapsId("workId")
-    private Work work;
-
-    @ManyToOne
     @MapsId("topicId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 
-    private Double score;
+    @MapsId("workId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "work_id", nullable = false)
+    private Work work;
+
+    @ColumnDefault("0")
+    @Column(name = "score")
+    private Float score;
 
 }

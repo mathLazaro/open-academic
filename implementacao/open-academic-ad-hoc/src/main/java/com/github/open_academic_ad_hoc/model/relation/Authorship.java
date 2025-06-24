@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_authorships")
 public class Authorship {
@@ -21,18 +21,19 @@ public class Authorship {
     @EmbeddedId
     private AuthorshipId id;
 
-    @ManyToOne
     @MapsId("workId")
-    @JoinColumn(name = "work_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "work_id", nullable = false)
     private Work work;
 
-    @ManyToOne
     @MapsId("authorId")
-    @JoinColumn(name = "author_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "institution_id")
+    @MapsId("institutionId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "institution_id", nullable = false)
     private Organization institution;
 
 }

@@ -3,7 +3,6 @@ package com.github.open_academic_ad_hoc.model.relation;
 import com.github.open_academic_ad_hoc.model.main.Organization;
 import com.github.open_academic_ad_hoc.model.main.Work;
 import com.github.open_academic_ad_hoc.model.pk.WorkOrganizationId;
-import com.github.open_academic_ad_hoc.model.type.OrganizationWorkRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +11,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_work_organizations")
 public class WorkOrganization {
@@ -21,15 +20,14 @@ public class WorkOrganization {
     @EmbeddedId
     private WorkOrganizationId id;
 
-    @ManyToOne
     @MapsId("workId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "work_id", nullable = false)
     private Work work;
 
-    @ManyToOne
     @MapsId("organizationId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
-
-    @Enumerated(EnumType.STRING)
-    private OrganizationWorkRole roleType;
 
 }
