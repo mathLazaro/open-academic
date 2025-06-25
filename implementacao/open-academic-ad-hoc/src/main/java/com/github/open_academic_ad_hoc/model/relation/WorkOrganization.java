@@ -1,5 +1,6 @@
 package com.github.open_academic_ad_hoc.model.relation;
 
+import com.github.open_academic_ad_hoc.model.Selectable;
 import com.github.open_academic_ad_hoc.model.main.Organization;
 import com.github.open_academic_ad_hoc.model.main.Work;
 import com.github.open_academic_ad_hoc.model.pk.WorkOrganizationId;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_work_organizations")
-public class WorkOrganization {
+public class WorkOrganization implements Selectable {
 
     @EmbeddedId
     private WorkOrganizationId id;

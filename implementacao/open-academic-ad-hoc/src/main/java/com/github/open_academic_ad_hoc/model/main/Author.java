@@ -1,5 +1,6 @@
 package com.github.open_academic_ad_hoc.model.main;
 
+import com.github.open_academic_ad_hoc.model.Selectable;
 import com.github.open_academic_ad_hoc.model.relation.Authorship;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_authors")
-public class Author {
+public class Author implements Selectable {
 
     @Id
     @Column(name = "id", nullable = false, length = Integer.MAX_VALUE)
@@ -35,6 +36,6 @@ public class Author {
     private Integer citedByCount;
 
     @OneToMany(mappedBy = "author")
-    private Set<Authorship> authorships = new LinkedHashSet<>();
+    private Set<Authorship> authorship = new LinkedHashSet<>();
 
 }

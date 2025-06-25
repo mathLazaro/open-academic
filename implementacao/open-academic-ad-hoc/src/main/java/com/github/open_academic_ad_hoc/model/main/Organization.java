@@ -1,5 +1,6 @@
 package com.github.open_academic_ad_hoc.model.main;
 
+import com.github.open_academic_ad_hoc.model.Selectable;
 import com.github.open_academic_ad_hoc.model.relation.Authorship;
 import com.github.open_academic_ad_hoc.model.relation.WorkOrganization;
 import jakarta.persistence.*;
@@ -18,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_organizations")
-public class Organization {
+public class Organization implements Selectable {
 
     @Id
     @Column(name = "id", nullable = false, length = Integer.MAX_VALUE)
@@ -45,7 +46,7 @@ public class Organization {
     private Integer citedByCount;
 
     @OneToMany(mappedBy = "institution")
-    private Set<Authorship> authorships = new LinkedHashSet<>();
+    private Set<Authorship> authorship = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -53,12 +54,12 @@ public class Organization {
             joinColumns = @JoinColumn(name = "organization_id"),
             inverseJoinColumns = @JoinColumn(name = "domain_id")
     )
-    private Set<Domain> domains;
+    private Set<Domain> domain;
 
     @OneToMany(mappedBy = "organization")
-    private Set<Role> roles = new LinkedHashSet<>();
+    private Set<Role> role = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "organization")
-    private Set<WorkOrganization> workOrganizations = new LinkedHashSet<>();
+    private Set<WorkOrganization> workOrganization = new LinkedHashSet<>();
 
 }

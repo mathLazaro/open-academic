@@ -1,5 +1,6 @@
 package com.github.open_academic_ad_hoc.model.main;
 
+import com.github.open_academic_ad_hoc.model.Selectable;
 import com.github.open_academic_ad_hoc.model.pk.RoleId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_roles")
-public class Role {
+public class Role implements Selectable {
 
     @EmbeddedId
     private RoleId id;

@@ -1,5 +1,6 @@
 package com.github.open_academic_ad_hoc.model.relation;
 
+import com.github.open_academic_ad_hoc.model.Selectable;
 import com.github.open_academic_ad_hoc.model.main.Topic;
 import com.github.open_academic_ad_hoc.model.main.Work;
 import com.github.open_academic_ad_hoc.model.pk.WorkTopicId;
@@ -16,7 +17,7 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_work_topics")
-public class WorkTopic {
+public class WorkTopic implements Selectable {
 
     @EmbeddedId
     private WorkTopicId id;
@@ -33,6 +34,6 @@ public class WorkTopic {
 
     @ColumnDefault("0")
     @Column(name = "score")
-    private Float score;
+    private Double score;
 
 }

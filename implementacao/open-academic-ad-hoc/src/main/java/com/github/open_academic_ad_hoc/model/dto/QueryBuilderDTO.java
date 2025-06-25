@@ -1,18 +1,18 @@
 package com.github.open_academic_ad_hoc.model.dto;
 
-import jakarta.persistence.criteria.JoinType;
+import com.github.open_academic_ad_hoc.model.WhereDTO;
+import com.github.open_academic_ad_hoc.model.dto.table.Table;
 
-import java.util.Map;
 import java.util.Set;
 
 public record QueryBuilderDTO(
         Table root,
-        Map<Table, JoinType> joins,
-        Set<Column> columns
-        // TODO where
-        // TODO order by
-        // TODO group by
-        // TODO having
+        Set<JoinDTO> joinSet,
+        Set<ColumnDTO> columnSet,
+        Set<WhereDTO> whereSet
 ) {
 
 }
+        // TODO order by
+        // TODO group by
+        // TODO having

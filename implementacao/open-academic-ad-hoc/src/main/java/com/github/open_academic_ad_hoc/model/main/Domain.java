@@ -1,5 +1,6 @@
 package com.github.open_academic_ad_hoc.model.main;
 
+import com.github.open_academic_ad_hoc.model.Selectable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "tb_domains")
-public class Domain {
+public class Domain implements Selectable {
 
     @Id
     @Column(name = "id", nullable = false, length = Integer.MAX_VALUE)
@@ -33,9 +34,9 @@ public class Domain {
     private Integer worksCount;
 
     @OneToMany(mappedBy = "domain")
-    private Set<Field> fields = new LinkedHashSet<>();
+    private Set<Field> field = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "domains")
-    private Set<Organization> organizations = new LinkedHashSet<>();
+    @ManyToMany(mappedBy = "domain")
+    private Set<Organization> organization = new LinkedHashSet<>();
 
 }

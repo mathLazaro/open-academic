@@ -1,21 +1,23 @@
 package com.github.open_academic_ad_hoc.controller;
 
 import com.github.open_academic_ad_hoc.model.dto.QueryBuilderDTO;
+import com.github.open_academic_ad_hoc.service.QueryBuilderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class QueryController {
 
-    @GetMapping
+    private final QueryBuilderService service;
+
+    @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Object selectReport(QueryBuilderDTO request) {
-        return null;
-    }
+    public Object selectReport(@RequestBody QueryBuilderDTO request) {
 
+        return service.generateReport(request);
+    }
 
 }
