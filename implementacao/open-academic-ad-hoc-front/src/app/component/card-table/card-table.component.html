@@ -1,0 +1,86 @@
+<div class="container">
+  <h3 class="title">{{ table }}</h3>
+  <div [class.blurred]="isBlurred">
+    @if (!isRoot) {
+    <select id="join-type" name="join-type">
+      @for (type of joinTypes; track $index) {
+      <option [value]="type">{{ type }}</option>
+      }
+    </select>
+    } @if (attributes) {
+    <div class="campo">
+      <div>
+        <p>Colunas</p>
+        <table>
+          <thead>
+            <tr>
+              <td>Adicionar</td>
+              <td>Campo</td>
+              <td>Alias</td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (attr of attributes; track $index) {
+            <tr id="select-{{ attr }}">
+              <td>
+                <input type="checkbox" [(ngModel)]="checkedColumns[attr]" [disabled]="isBlurred"/>
+              </td>
+              <td>{{ attr }}</td>
+              <td>
+                <input id="alias" name="alias" type="text" [disabled]="isBlurred" />
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <p>Filtro</p>
+        <table>
+          <thead>
+            <tr>
+              <td>Adicionar</td>
+              <td>Campo</td>
+              <td>Operador</td>
+              <td>Valor</td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (attr of attributes; track $index) {
+            <tr id="filter-{{ attr }}">
+              <td>
+                <input type="checkbox" [(ngModel)]="checkedFilters[attr]" [disabled]="isBlurred" />
+              </td>
+              <td>{{ attr }}</td>
+              <td>
+                <select name="operator" id="operator" [disabled]="isBlurred">
+                  @for (op of operators(attr); track $index) {
+                  <option [value]="op">{{ op }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <input id="value-input" name="value-input" type="text" [disabled]="isBlurred" />
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    }
+  </div>
+  <div class="controls">
+    <button (click)="onModify()">Modificar</button>
+    <button (click)="onAdd()">Adicionar</button>
+  </div>
+  <div>
+    <select name="table" (change)="onTableToJoinChange($event)">
+      <option value="" [defaultSelected]=""></option>
+      @for (table of getNeighbors(table); track $index) {
+      <option [value]="table">{{ table }}</option>
+      }
+    </select>
+    <button (click)="onJoin()">Join</button>
+  </div>
+</div>

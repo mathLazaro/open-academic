@@ -1,0 +1,27 @@
+@if (data) {
+<h3>SQL gerado:</h3>
+<p>{{ sql }}</p>
+
+<h3>Relatório</h3>
+@if (data.length > 0) {
+<table>
+  <thead>
+    <tr>
+      @for (col of columns; track col) {
+      <th>{{ col }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of data; track row) {
+    <tr>
+      @for (col of columns; track col) {
+      <td>{{ row[col] }}</td>
+      }
+    </tr>
+    }
+  </tbody>
+</table>
+} } @else {
+<p>Nenhum conteudo a ser mostrado</p>
+}

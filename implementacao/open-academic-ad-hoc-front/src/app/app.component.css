@@ -1,0 +1,20 @@
+/* Posiciona o botão Remover à direita do container do card */
+#removeBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
+.removeButton {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.removeButton:hover {
+  background-color: #c0392b;
+}
