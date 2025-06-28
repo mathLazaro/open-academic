@@ -29,6 +29,7 @@ export interface ReportRequest {
   root: string;
   joinSet: Array<Join>;
   columnSet: Array<Column>;
+  whereSet: Array<Where>;
 }
 
 export interface DataConstructor {
