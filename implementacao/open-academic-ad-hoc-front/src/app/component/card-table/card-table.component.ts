@@ -27,6 +27,7 @@ export class CardTableComponent {
 
   checkedFilters: { [key: string]: boolean } = {};
 
+  selectedJoinType: JoinType = JoinType.INNER;
   
   @Output()
   onJoinTable = new EventEmitter<{ table: TableType; joinType: JoinType }>();
@@ -108,8 +109,7 @@ export class CardTableComponent {
   }
 
   extractJoinType(): JoinType {
-    const selectElement = document.getElementById('join-type') as HTMLSelectElement;
-    return selectElement.value as JoinType;
+    return this.selectedJoinType as JoinType;
   }
 
   onAdd() {

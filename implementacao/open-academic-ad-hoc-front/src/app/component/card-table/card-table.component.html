@@ -75,9 +75,9 @@
       <option [value]="table">{{ table }}</option>
       }
     </select>
-    <select id="join-type" name="join-type">
+    <select id="join-type" name="join-type" [(ngModel)]="selectedJoinType">
       @for (type of joinTypes; track $index) {
-      <option [value]="type">{{ type }}</option>
+      <option [value]="type" >{{ type }}</option>
       }
     </select>
     <button (click)="onJoin()">Join</button>

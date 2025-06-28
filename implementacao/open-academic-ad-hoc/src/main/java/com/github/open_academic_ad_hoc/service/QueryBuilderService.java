@@ -84,9 +84,15 @@ public class QueryBuilderService {
                         Select field = whereDTO.field();
                         Operator operator = whereDTO.operator();
                         Object value = field.castValue(whereDTO.value());
+                        String attribute = field.attribute();
 
                         var from = joins.get(table);
-                        var path = from.get(field.attribute());
+                        Path<Object> path;
+                        try {
+                            path = from.get(attribute);
+                        } catch (Exception e) {
+                            path = from.get("id").get(attribute);
+                        }
 
                         Predicate predicate = switch (operator) {
                             case EQUALS -> cb.equal(path, value);

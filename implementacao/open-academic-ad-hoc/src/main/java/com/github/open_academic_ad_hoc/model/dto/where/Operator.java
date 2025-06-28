@@ -7,5 +7,19 @@ public enum Operator {
     LESS_THAN,
     GREATER_THAN_EQUALS,
     LESS_THAN_EQUALS,
-    LIKE,
+    LIKE;
+
+    public static Operator getOperator(String symbol) {
+
+        return switch (symbol) {
+            case "=" -> Operator.EQUALS;
+            case "!=" -> Operator.NOT_EQUALS;
+            case ">" -> Operator.GREATER_THAN;
+            case "<" -> Operator.LESS_THAN;
+            case ">=" -> Operator.GREATER_THAN_EQUALS;
+            case "<=" -> Operator.LESS_THAN_EQUALS;
+            default -> valueOf(symbol);
+        };
+    }
+
 }

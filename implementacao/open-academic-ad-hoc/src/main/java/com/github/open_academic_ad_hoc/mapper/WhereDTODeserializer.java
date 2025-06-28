@@ -31,7 +31,7 @@ public class WhereDTODeserializer extends GenericDeserializer<WhereDTO> {
         Table table = Table.valueOf(node.get("table").asText());
 
         String fieldStr = node.get("field").asText();
-        Operator operator = Operator.valueOf(node.get("operator").asText());
+        Operator operator = Operator.getOperator(node.get("operator").asText());
         String value = node.get("value").asText();
         Select field = convertField(table, fieldStr);
 
