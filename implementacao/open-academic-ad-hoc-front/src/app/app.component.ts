@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { DashboardReportComponent } from './component/dashboard-report/dashboard-report.component';
 import { data } from './data';
-import { DataConstructor, Join, ReportResponse } from './model/report';
+import { DataConstructor, Join, ReportRequest, ReportResponse } from './model/report';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { Structure } from './service/structure.service';
 import { JoinType, TableType } from './model/enums';
 import { CardTableComponent } from './component/card-table/card-table.component';
+import { ReportService } from './service/report.service';
 
 @Component({
   selector: 'app-root',
@@ -25,10 +26,25 @@ export class AppComponent {
 
   joinSet: Join[] = [];
 
-  constructor(private structure: Structure) {}
+  constructor(private structure: Structure, private service: ReportService) {}
 
   get tables() {
     return this.structure.getAllTables();
+  }
+
+  private prepareData(): ReportRequest {
+    const request: ReportRequest = {
+      root: this.root!,
+      joinSet: this.joinSet,
+      columnSet: Array.from(this.dataMap.values())
+        .map((data) => data.columnSet)
+        .flat(),
+      whereSet: Array.from(this.dataMap.values())
+        .map((data) => data.whereSet)
+        .flat(),
+    };
+
+    return request;
   }
 
   isRoot(table: TableType): boolean {
@@ -71,14 +87,20 @@ export class AppComponent {
   onChangeDataConstructor($event: Map<TableType, DataConstructor>) {
     const changes = $event;
     changes.forEach((data, table) => {
-      if (this.dataMap.has(table)) {
-        const existingData = this.dataMap.get(table)!;
-        existingData.columnSet.push(...data.columnSet); // TODO handle duplicates
-        existingData.whereSet.push(...data.whereSet);
-      } else {
-        this.dataMap.set(table, data);
-      }
+      this.dataMap.set(table, data);
     });
-    
+  }
+
+  onSearch() {
+    if (!this.root) {
+      console.error('Root table is not selected');
+      return;
+    }
+
+    const body = this.prepareData();
+
+    console.log('Search request body:', body);
+
+    this.service.getReportData(body).then((response) => (this.response = response));
   }
 }

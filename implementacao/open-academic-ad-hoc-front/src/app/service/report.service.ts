@@ -9,7 +9,11 @@ export class ReportService {
 
   async getReportData(request: ReportRequest): Promise<ReportResponse> {
     const response = await fetch('http://localhost:8080', {
-      method: 'GET',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
     });
     if (!response.ok) {
       throw new Error('Error fethching report data: ' + response.status);

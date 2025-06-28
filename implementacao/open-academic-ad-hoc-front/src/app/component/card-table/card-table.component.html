@@ -1,13 +1,7 @@
 <div class="container">
   <h3 class="title">{{ table }}</h3>
   <div [class.blurred]="isBlurred">
-    @if (!isRoot) {
-    <select id="join-type" name="join-type">
-      @for (type of joinTypes; track $index) {
-      <option [value]="type">{{ type }}</option>
-      }
-    </select>
-    } @if (attributes) {
+    @if (attributes) {
     <div class="campo">
       <div>
         <p>Colunas</p>
@@ -23,7 +17,7 @@
             @for (attr of attributes; track $index) {
             <tr id="select-{{ attr }}">
               <td>
-                <input type="checkbox" [(ngModel)]="checkedColumns[attr]" [disabled]="isBlurred"/>
+                <input type="checkbox" [(ngModel)]="checkedColumns[attr]" [disabled]="isBlurred" />
               </td>
               <td>{{ attr }}</td>
               <td>
@@ -74,11 +68,16 @@
     <button (click)="onModify()">Modificar</button>
     <button (click)="onAdd()">Adicionar</button>
   </div>
-  <div>
+  <div class="join-controls">
     <select name="table" (change)="onTableToJoinChange($event)">
       <option value="" [defaultSelected]=""></option>
       @for (table of getNeighbors(table); track $index) {
       <option [value]="table">{{ table }}</option>
+      }
+    </select>
+    <select id="join-type" name="join-type" [(ngModel)]="selectedJoinType">
+      @for (type of joinTypes; track $index) {
+      <option [value]="type" >{{ type }}</option>
       }
     </select>
     <button (click)="onJoin()">Join</button>

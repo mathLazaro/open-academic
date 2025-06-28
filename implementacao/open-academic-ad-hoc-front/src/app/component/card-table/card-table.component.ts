@@ -4,7 +4,7 @@ import { getOperator, JoinType, Operator, TableType } from '../../model/enums';
 import { Field } from '../../model/field';
 
 import { FormsModule } from '@angular/forms';
-import { Column, DataConstructor } from '../../model/report';
+import { Column, DataConstructor, Where } from '../../model/report';
 
 @Component({
   selector: 'app-card-table',
@@ -27,14 +27,8 @@ export class CardTableComponent {
 
   checkedFilters: { [key: string]: boolean } = {};
 
-  getCheckedColumns(): string[] {
-    return Object.keys(this.checkedColumns).filter((key) => !!this.checkedColumns[key]);
-  }
-
-  getCheckedFilters(): string[] {
-    return Object.keys(this.checkedFilters).filter((key) => !!this.checkedFilters[key]);
-  }
-
+  selectedJoinType: JoinType = JoinType.INNER;
+  
   @Output()
   onJoinTable = new EventEmitter<{ table: TableType; joinType: JoinType }>();
 
@@ -54,6 +48,15 @@ export class CardTableComponent {
   get tables(): TableType[] {
     return this.structure.getAllTables();
   }
+
+  getCheckedColumns(): string[] {
+    return Object.keys(this.checkedColumns).filter((key) => !!this.checkedColumns[key]);
+  }
+
+  getCheckedFilters(): string[] {
+    return Object.keys(this.checkedFilters).filter((key) => !!this.checkedFilters[key]);
+  }
+
 
   getNeighbors(table: TableType): TableType[] {
     return this.structure.getAllNeighbors(table);
@@ -89,15 +92,16 @@ export class CardTableComponent {
     } as Column;
   }
 
-  extractFilterRow(field: string): { field: Field; operator: Operator; value: string } {
+  extractFilterRow(field: string): Where {
     const id = `filter-${field}`;
 
     const tr = document.getElementById(id);
 
     const operator = getOperator(tr!.getElementsByTagName('select')[0].value) as Operator;
-    const valueElement = tr!.querySelector('input[name="value-input"]') as HTMLInputElement; // TODO corrigir
+    const valueElement = tr!.querySelector('input[name="value-input"]') as HTMLInputElement;
 
     return {
+      table: this.table as TableType,
       field: field as Field,
       operator: operator,
       value: valueElement.value || '',
@@ -105,8 +109,7 @@ export class CardTableComponent {
   }
 
   extractJoinType(): JoinType {
-    const selectElement = document.getElementById('join-type') as HTMLSelectElement;
-    return selectElement.value as JoinType;
+    return this.selectedJoinType as JoinType;
   }
 
   onAdd() {
