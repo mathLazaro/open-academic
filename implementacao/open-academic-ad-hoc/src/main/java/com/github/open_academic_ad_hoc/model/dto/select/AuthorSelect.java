@@ -1,5 +1,7 @@
 package com.github.open_academic_ad_hoc.model.dto.select;
 
+import java.util.List;
+
 public enum AuthorSelect implements Select {
     ID("id", String.class),
     NAME("name", String.class),

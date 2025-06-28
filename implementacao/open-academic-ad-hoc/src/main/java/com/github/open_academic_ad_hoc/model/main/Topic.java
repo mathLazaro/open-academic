@@ -1,5 +1,6 @@
 package com.github.open_academic_ad_hoc.model.main;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.open_academic_ad_hoc.model.Selectable;
 import com.github.open_academic_ad_hoc.model.relation.WorkTopic;
 import jakarta.persistence.*;
@@ -41,9 +42,11 @@ public class Topic implements Selectable {
     @ElementCollection
     @CollectionTable(name = "tb_topic_keywords", joinColumns = @JoinColumn(name = "topic_id"))
     @Column(name = "word")
+    @JsonIgnore
     private Set<String> keyword;
 
     @OneToMany(mappedBy = "topic")
+    @JsonIgnore
     private Set<WorkTopic> workTopic = new LinkedHashSet<>();
 
 }
