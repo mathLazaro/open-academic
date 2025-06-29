@@ -86,19 +86,24 @@ export class CardTableComponent {
     const selectedFilters = this.getCheckedFilters();
     const selectedColumnsGroupBy = this.getCheckedColumnsGroupBy();
 
-    const columns = selectedColumns.map((column) => this.extractColumnRow(column));
+    let columns: Column[] = [];
+    let groupBy: Column[] = [];
+
+    if (this.isGrouping) {
+      groupBy = selectedColumnsGroupBy.map((column) => this.extractColumnLikeRow(column, `group-${column}`));
+    } else {
+      columns = selectedColumns.map((column) => this.extractColumnLikeRow(column, `select-${column}`));
+    }
     const filters = selectedFilters.map((filter) => this.extractFilterRow(filter));
-    const groupBy = selectedColumnsGroupBy.map((column) => this.extractColumnRow(column));
 
     return {
       columnSet: columns,
       whereSet: filters,
+      groupBy: groupBy,
     } as DataConstructor;
   }
 
-  extractColumnRow(field: string): Column {
-    const id = `select-${field}`;
-
+  extractColumnLikeRow(field: string, id: string): Column {
     const tr = document.getElementById(id);
     const alias = tr!.getElementsByTagName('input')[1]?.value || '';
 

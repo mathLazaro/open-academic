@@ -1,4 +1,4 @@
-import { Operator } from './enums';
+import { Operator, AggregationFunction } from './enums';
 
 export enum WorkField {
   ID = 'ID',
@@ -251,5 +251,157 @@ export const workTopicFieldType = {
     Operator.LESS_THAN,
     Operator.GREATER_THAN_EQUALS,
     Operator.LESS_THAN_EQUALS,
+  ],
+};
+
+
+export const authorFieldAggregation = {
+  [AuthorField.ID]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [AuthorField.NAME]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [AuthorField.WORKS_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+  [AuthorField.CITED_BY_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+};
+
+export const workFieldAggregation = {
+  [WorkField.ID]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [WorkField.TITLE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [WorkField.IS_OPEN]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [WorkField.REFERENCED_WORKS_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+  [WorkField.CITED_BY_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+  [WorkField.FWCI]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+  [WorkField.PUBLISH_DATE]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+  [WorkField.TYPE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+};
+
+export const domainFieldAggregation = {
+  [DomainField.ID]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [DomainField.TITLE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [DomainField.DESCRIPTION]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [DomainField.WORKS_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+};
+
+export const fieldFieldAggregation = {
+  [FieldField.ID]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [FieldField.TITLE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [FieldField.DESCRIPTION]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [FieldField.WORKS_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+};
+
+export const organizationFieldAggregation = {
+  [OrganizationField.ID]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [OrganizationField.NAME]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [OrganizationField.CITY]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [OrganizationField.COUNTRY]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [OrganizationField.COUNTRY_CODE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [OrganizationField.WORKS_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+  [OrganizationField.CITED_BY_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+};
+
+export const roleFieldAggregation = {
+  [RoleField.ROLE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [RoleField.WORKS_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+};
+
+export const topicFieldAggregation = {
+  [TopicField.ID]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [TopicField.TITLE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [TopicField.DESCRIPTION]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+  [TopicField.WORKS_COUNT]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
+  ],
+};
+
+export const workOrganizationFieldAggregation = {
+  [WorkOrganizationField.ROLE_TYPE]: [AggregationFunction.COUNT, AggregationFunction.COUNT_DISTINCT],
+};
+
+export const workTopicFieldAggregation = {
+  [WorkTopicField.SCORE]: [
+    AggregationFunction.COUNT,
+    AggregationFunction.SUM,
+    AggregationFunction.AVG,
+    AggregationFunction.MIN,
+    AggregationFunction.MAX,
+    AggregationFunction.COUNT_DISTINCT,
   ],
 };

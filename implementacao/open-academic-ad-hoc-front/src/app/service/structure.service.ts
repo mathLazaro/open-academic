@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Aggregation, JoinType, Operator, TableType } from '../model/enums';
+import { AggregationFunction, JoinType, Operator, TableType } from '../model/enums';
 import {
   AuthorField,
+  authorFieldAggregation,
   authorFieldType,
   DomainField,
+  domainFieldAggregation,
   domainFieldType,
   Field,
   FieldField,
+  fieldFieldAggregation,
   fieldFieldType,
   OrganizationField,
+  organizationFieldAggregation,
   organizationFieldType,
   RoleField,
+  roleFieldAggregation,
   roleFieldType,
   TopicField,
+  topicFieldAggregation,
   topicFieldType,
   WorkField,
+  workFieldAggregation,
   workFieldType,
   WorkOrganizationField,
+  workOrganizationFieldAggregation,
   workOrganizationFieldType,
   WorkTopicField,
+  workTopicFieldAggregation,
   workTopicFieldType,
 } from '../model/field';
 
@@ -148,8 +157,37 @@ export class Structure {
     }
   }
 
+  public getAggFunctionsByColumn(table: TableType, field: Field): AggregationFunction[] {
+    switch (table) {
+      case TableType.AUTHOR:
+        return (authorFieldAggregation[field as AuthorField] as AggregationFunction[]) || [];
+      case TableType.DOMAIN:
+        return (domainFieldAggregation[field as DomainField] as AggregationFunction[]) || [];
+      case TableType.FIELD:
+        return (fieldFieldAggregation[field as FieldField] as AggregationFunction[]) || [];
+      case TableType.ORGANIZATION:
+        return (organizationFieldAggregation[field as OrganizationField] as AggregationFunction[]) || [];
+      case TableType.ROLE:
+        return (roleFieldAggregation[field as RoleField] as AggregationFunction[]) || [];
+      case TableType.TOPIC:
+        return (topicFieldAggregation[field as TopicField] as AggregationFunction[]) || [];
+      case TableType.WORK:
+        return (workFieldAggregation[field as WorkField] as AggregationFunction[]) || [];
+      case TableType.WORK_ORGANIZATION:
+        return (workOrganizationFieldAggregation[field as WorkOrganizationField] as AggregationFunction[]) || [];
+      case TableType.WORK_TOPIC:
+        return (workTopicFieldAggregation[field as WorkTopicField] as AggregationFunction[]) || [];
+      default:
+        return [];
+    }
+  }
+
+  public getAggregationFunction(value: string): AggregationFunction {
+    return AggregationFunction[value as keyof typeof AggregationFunction];
+  }
+
   public getAggFunctions(): string[] {
-    return Object.values(Aggregation).filter(v => typeof v === 'string');
+    return Object.values(AggregationFunction).filter(v => typeof v === 'string');
   }
 
   public getAllJoinTypes(): JoinType[] {

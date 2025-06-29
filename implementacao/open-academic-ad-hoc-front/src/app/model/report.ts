@@ -1,4 +1,4 @@
-import { JoinType, TableType } from './enums';
+import { AggregationFunction, JoinType, TableType } from './enums';
 import { Field } from './field';
 
 export interface ReportResponse {
@@ -30,9 +30,23 @@ export interface ReportRequest {
   joinSet: Array<Join>;
   columnSet: Array<Column>;
   whereSet: Array<Where>;
+  groupBy?: GroupBy;
+}
+
+export interface Aggregation {
+  table: TableType;
+  field: Field;
+  aggregation: AggregationFunction;
+  alias?: string;
+}
+
+export interface GroupBy {
+  columnSet: Array<Column>;
+  aggregation: Aggregation;
 }
 
 export interface DataConstructor {
   columnSet: Column[];
   whereSet: Where[];
+  groupBy?: Column[];
 }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { DashboardReportComponent } from './component/dashboard-report/dashboard-report.component';
-import { DataConstructor, Join, ReportRequest, ReportResponse } from './model/report';
+import { DataConstructor, GroupBy, Join, ReportRequest, ReportResponse } from './model/report';
 import { Structure } from './service/structure.service';
-import { Aggregation, JoinType, TableType } from './model/enums';
+import { AggregationFunction, JoinType, TableType } from './model/enums';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { ReportService } from './service/report.service';
 import { FormsModule } from '@angular/forms';
@@ -33,14 +33,12 @@ export class AppComponent {
 
   aggregateFunction?: string;
 
+  aliasToAggregate?: string;
+
   constructor(private structure: Structure, private service: ReportService) {}
 
   get tables() {
     return this.structure.getAllTables();
-  }
-
-  get aggFunctions(): string[] {
-    return this.structure.getAggFunctions();
   }
 
   private prepareData(): ReportRequest {
@@ -55,11 +53,42 @@ export class AppComponent {
         .flat(),
     };
 
+    if (this.isGrouping) {
+      if (!this.tableToAggregate && !this.columnToAggregate && !this.aggregateFunction) {
+        console.error('Aggregation parameters are not set');
+        return request;
+      }
+      const groupByColumns = Array.from(this.dataMap.values())
+        .map((data) => data.groupBy)
+        .flat();
+
+      if (groupByColumns.length > 0) {
+        request.groupBy = {
+          columnSet: groupByColumns,
+          aggregation: {
+            table: this.tableToAggregate!,
+            field: this.columnToAggregate!,
+            aggregation: this.structure.getAggregationFunction(this.aggregateFunction!),
+            alias: this.aliasToAggregate
+          },
+        } as GroupBy;
+      }
+    }
+
     return request;
   }
 
   getAttributes(table: TableType): Field[] {
     return this.structure.getAllAtributes(table);
+  }
+
+  getAggFunctions(table?: TableType, field?: Field): AggregationFunction[] {
+    if (table && field) {
+      return this.structure.getAggFunctionsByColumn(table, field);
+    }
+    else {
+      return [];
+    }
   }
 
   isRoot(table: TableType): boolean {

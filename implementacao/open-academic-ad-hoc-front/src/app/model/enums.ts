@@ -34,13 +34,13 @@ export enum Operator {
   LIKE = 'LIKE',
 }
 
-export enum Aggregation {
-  COUNT,
-  COUNT_DISTINCT,
-  SUM,
-  AVG,
-  MAX,
-  MIN,
+export enum AggregationFunction {
+  COUNT = 'COUNT',
+  COUNT_DISTINCT = 'COUNT_DISTINCT',
+  SUM = 'SUM',
+  AVG = 'AVG',
+  MAX = 'MAX',
+  MIN = 'MIN',
 }
 
 export function getOperator(value: string): Operator | undefined {

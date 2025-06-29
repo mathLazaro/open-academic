@@ -98,6 +98,10 @@ public class QueryBuilderService {
         String alias = aggregation.alias();
         From<?, ?> from = joins.get(table);
 
+        if (Objects.isNull(alias) || alias.isEmpty()) {
+            alias = table.attribute() + "_" + field.attribute() + "_" + aggregation.aggregation();
+        }
+
         // Exemplo: agregação SUM
 
         Expression<? extends Number> path = (Expression<? extends Number>) getPath(from, field.attribute());
@@ -194,6 +198,10 @@ public class QueryBuilderService {
                         Table table = col.table();
                         Select field = col.field();
                         String alias = col.alias();
+
+                        if (alias.isEmpty()) {
+                            alias = table.attribute() + "_" + field.attribute();
+                        }
 
                         return defineSelectByTable(table, field, alias, joins);
                     })

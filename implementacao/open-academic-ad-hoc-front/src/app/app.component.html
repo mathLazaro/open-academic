@@ -37,10 +37,12 @@
       </select>
 
       <select name="aggregate-funct" id="aggregate-funct" [(ngModel)]="aggregateFunction" [disabled]="!columnToAggregate">
-        @for (agg of aggFunctions; track $index) {
+        @for (agg of getAggFunctions(tableToAggregate, columnToAggregate); track $index) {
         <option [value]="agg">{{ agg }}</option>
         }
       </select>
+
+      <input type="text" name="alias" id="alias" [(ngModel)]="aliasToAggregate" placeholder="Alias" />
     </div>
     }
     <button (click)="onSearch()">Buscar</button>
