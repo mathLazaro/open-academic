@@ -3,6 +3,7 @@ package com.github.open_academic_ad_hoc.model.dto.select;
 import com.github.open_academic_ad_hoc.model.dto.table.Table;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,11 +19,14 @@ public interface Select {
 
         Class<?> t = type();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+
         if (t == String.class) return raw;
         if (t == Integer.class) return Integer.parseInt(raw);
         if (t == Long.class) return Long.parseLong(raw);
         if (t == Boolean.class) return Boolean.parseBoolean(raw);
-        if (Objects.equals(t, LocalDate.class)) return LocalDate.parse(raw);
+        if (t == Double.class) return  Double.parseDouble(raw);
+        if (Objects.equals(t, LocalDate.class)) return LocalDate.parse(raw, formatter);
 
         throw new IllegalArgumentException("Não é possível converter " + raw + " para " + t.getSimpleName());
     }

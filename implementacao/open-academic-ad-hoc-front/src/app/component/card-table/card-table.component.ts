@@ -19,6 +19,9 @@ export class CardTableComponent {
   @Input({ required: true })
   isRoot!: boolean;
 
+  @Input({ required: true })
+  isGrouping!: boolean;
+
   tableToJoin?: TableType;
 
   isBlurred = false;
@@ -27,15 +30,24 @@ export class CardTableComponent {
 
   checkedFilters: { [key: string]: boolean } = {};
 
+  checkedColumnsGroupBy: { [key: string]: boolean } = {};
+
   selectedJoinType: JoinType = JoinType.INNER;
-  
+
   @Output()
   onJoinTable = new EventEmitter<{ table: TableType; joinType: JoinType }>();
 
   @Output()
   onFinalizeChanges = new EventEmitter<Map<TableType, DataConstructor>>();
 
+  @Output()
+  onGrouping = new EventEmitter<boolean>();
+
   constructor(private structure: Structure) {}
+
+  get isGroupByActive(): boolean {
+    return this.getCheckedColumnsGroupBy().length > 0 || this.isGrouping;
+  }
 
   get attributes(): Field[] {
     return this.structure.getAllAtributes(this.table);
@@ -57,6 +69,9 @@ export class CardTableComponent {
     return Object.keys(this.checkedFilters).filter((key) => !!this.checkedFilters[key]);
   }
 
+  getCheckedColumnsGroupBy(): string[] {
+    return Object.keys(this.checkedColumnsGroupBy).filter((key) => !!this.checkedColumnsGroupBy[key]);
+  }
 
   getNeighbors(table: TableType): TableType[] {
     return this.structure.getAllNeighbors(table);
@@ -69,9 +84,11 @@ export class CardTableComponent {
   prepareData() {
     const selectedColumns = this.getCheckedColumns();
     const selectedFilters = this.getCheckedFilters();
+    const selectedColumnsGroupBy = this.getCheckedColumnsGroupBy();
 
     const columns = selectedColumns.map((column) => this.extractColumnRow(column));
     const filters = selectedFilters.map((filter) => this.extractFilterRow(filter));
+    const groupBy = selectedColumnsGroupBy.map((column) => this.extractColumnRow(column));
 
     return {
       columnSet: columns,
@@ -134,5 +151,9 @@ export class CardTableComponent {
   }
   onModify() {
     this.isBlurred = false;
+  }
+
+  emitGrouping() {
+    this.onGrouping.emit(this.getCheckedColumnsGroupBy().length > 0);
   }
 }

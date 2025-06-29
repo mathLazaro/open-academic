@@ -5,7 +5,7 @@
     <div class="campo">
       <div>
         <p>Colunas</p>
-        <table>
+        <table [class.blurred]="isGroupByActive">
           <thead>
             <tr>
               <td>Adicionar</td>
@@ -17,11 +17,11 @@
             @for (attr of attributes; track $index) {
             <tr id="select-{{ attr }}">
               <td>
-                <input type="checkbox" [(ngModel)]="checkedColumns[attr]" [disabled]="isBlurred" />
+                <input type="checkbox" [(ngModel)]="checkedColumns[attr]" [disabled]="isBlurred || isGroupByActive" />
               </td>
               <td>{{ attr }}</td>
               <td>
-                <input id="alias" name="alias" type="text" [disabled]="isBlurred" />
+                <input id="alias" name="alias" type="text" [disabled]="isBlurred || isGroupByActive" />
               </td>
             </tr>
             }
@@ -61,6 +61,31 @@
           </tbody>
         </table>
       </div>
+      <div>
+        <p>Agrupamento</p>
+        <table>
+          <thead>
+            <tr>
+              <td>Adicionar</td>
+              <td>Campo</td>
+              <td>Alias</td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (attr of attributes; track $index) {
+            <tr id="group-{{ attr }}">
+              <td>
+                <input type="checkbox" [(ngModel)]="checkedColumnsGroupBy[attr]" [disabled]="isBlurred" (change)="emitGrouping()" />
+              </td>
+              <td>{{ attr }}</td>
+              <td>
+                <input id="alias" name="alias" type="text" [disabled]="isBlurred" />
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
     }
   </div>
@@ -77,7 +102,7 @@
     </select>
     <select id="join-type" name="join-type" [(ngModel)]="selectedJoinType">
       @for (type of joinTypes; track $index) {
-      <option [value]="type" >{{ type }}</option>
+      <option [value]="type">{{ type }}</option>
       }
     </select>
     <button (click)="onJoin()">Join</button>

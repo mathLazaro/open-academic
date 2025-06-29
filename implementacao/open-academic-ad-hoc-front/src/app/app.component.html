@@ -1,25 +1,56 @@
-<div>
-  <select name="root" id="table" (change)="onRootChange($event)">
+<div class="input-container">
+  <select name="root" id="table" (change)="onRootChange($event)" [value]="''">
+    <option value="" disabled selected>Selecione uma tabela</option>
     @for (table of tables; track $index) {
     <option [value]="table">{{ table }}</option>
     }
   </select>
   <div id="display">
-    @for (table of addedTables; let i = $index ;track $index) { @if (i ===
-    addedTables.length - 1) {
-      <div id="removeBtn">
-        <button class="removeButton" (click)="onRemoveTable(table)">Remover</button>
-      </div>
+    @for (table of addedTables; let i = $index ;track $index) { @if (i === addedTables.length - 1) {
+    <div id="removeBtn">
+      <button class="removeButton" (click)="onRemoveTable(table)">Remover</button>
+    </div>
     }
     <app-card-table
       [table]="table"
       [isRoot]="isRoot(table)"
+      [isGrouping]="isGrouping"
+      (onGrouping)="onGrouping($event)"
       (onJoinTable)="onJoinTable(table, $event)"
       (onFinalizeChanges)="onChangeDataConstructor($event)"
     />
+    } @if (isGrouping) {
+    <p>Coluna de agregação</p>
+    <div class="aggregation-controls">
+      <select name="aggregate-table" id="aggregate-table" [(ngModel)]="tableToAggregate">
+        <option value="" disabled selected>Selecione a tabela</option>
+        @for (table of addedTables; track $index) {
+        <option [value]="table">{{ table }}</option>
+        }
+      </select>
+
+      <select name="aggregate-column" id="aggregate-column" [(ngModel)]="columnToAggregate" [disabled]="!tableToAggregate">
+        <option value="" disabled selected>Selecione a coluna</option>
+        @if (tableToAggregate) { @for (column of getAttributes(tableToAggregate); track $index) {
+        <option [value]="column">{{ column }}</option>
+        } }
+      </select>
+
+      <select name="aggregate-funct" id="aggregate-funct" [(ngModel)]="aggregateFunction" [disabled]="!columnToAggregate">
+        @for (agg of aggFunctions; track $index) {
+        <option [value]="agg">{{ agg }}</option>
+        }
+      </select>
+    </div>
     }
     <button (click)="onSearch()">Buscar</button>
   </div>
 </div>
 
-<app-dashboard-report [response]="response" />
+<div class="dashboard">
+  @if (response) {
+  <app-dashboard-report [response]="response" />
+  } @else {
+  <p>Nenhum conteudo a ser mostrado</p>
+  }
+</div>

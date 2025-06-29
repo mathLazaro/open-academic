@@ -1,22 +1,21 @@
 import { Component } from '@angular/core';
 import { DashboardReportComponent } from './component/dashboard-report/dashboard-report.component';
-import { data } from './data';
 import { DataConstructor, Join, ReportRequest, ReportResponse } from './model/report';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { Structure } from './service/structure.service';
-import { JoinType, TableType } from './model/enums';
+import { Aggregation, JoinType, TableType } from './model/enums';
 import { CardTableComponent } from './component/card-table/card-table.component';
 import { ReportService } from './service/report.service';
+import { FormsModule } from '@angular/forms';
+import { Field } from './model/field';
 
 @Component({
   selector: 'app-root',
-  imports: [DashboardReportComponent, CardTableComponent, MatFormFieldModule, MatSelectModule],
+  imports: [DashboardReportComponent, CardTableComponent, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  response: ReportResponse = data;
+  response?: ReportResponse;
 
   root?: TableType;
 
@@ -26,10 +25,22 @@ export class AppComponent {
 
   joinSet: Join[] = [];
 
+  isGrouping = false;
+
+  tableToAggregate?: TableType;
+
+  columnToAggregate?: Field;
+
+  aggregateFunction?: string;
+
   constructor(private structure: Structure, private service: ReportService) {}
 
   get tables() {
     return this.structure.getAllTables();
+  }
+
+  get aggFunctions(): string[] {
+    return this.structure.getAggFunctions();
   }
 
   private prepareData(): ReportRequest {
@@ -47,9 +58,17 @@ export class AppComponent {
     return request;
   }
 
+  getAttributes(table: TableType): Field[] {
+    return this.structure.getAllAtributes(table);
+  }
+
   isRoot(table: TableType): boolean {
     const idx = this.addedTables.indexOf(table);
     return idx === 0;
+  }
+
+  onGrouping($event: boolean) {
+    this.isGrouping = $event;
   }
 
   onRootChange(target: Event) {

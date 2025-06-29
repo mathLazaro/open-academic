@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JoinType, Operator, TableType } from '../model/enums';
+import { Aggregation, JoinType, Operator, TableType } from '../model/enums';
 import {
   AuthorField,
   authorFieldType,
@@ -132,10 +132,7 @@ export class Structure {
       case TableType.FIELD:
         return (fieldFieldType[field as FieldField] as Operator[]) || [];
       case TableType.ORGANIZATION:
-        return (
-          (organizationFieldType[field as OrganizationField] as Operator[]) ||
-          []
-        );
+        return (organizationFieldType[field as OrganizationField] as Operator[]) || [];
       case TableType.ROLE:
         return (roleFieldType[field as RoleField] as Operator[]) || [];
       case TableType.TOPIC:
@@ -143,18 +140,16 @@ export class Structure {
       case TableType.WORK:
         return (workFieldType[field as WorkField] as Operator[]) || [];
       case TableType.WORK_ORGANIZATION:
-        return (
-          (workOrganizationFieldType[
-            field as WorkOrganizationField
-          ] as Operator[]) || []
-        );
+        return (workOrganizationFieldType[field as WorkOrganizationField] as Operator[]) || [];
       case TableType.WORK_TOPIC:
-        return (
-          (workTopicFieldType[field as WorkTopicField] as Operator[]) || []
-        );
+        return (workTopicFieldType[field as WorkTopicField] as Operator[]) || [];
       default:
         return [];
     }
+  }
+
+  public getAggFunctions(): string[] {
+    return Object.values(Aggregation).filter(v => typeof v === 'string');
   }
 
   public getAllJoinTypes(): JoinType[] {

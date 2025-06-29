@@ -42,11 +42,9 @@ public class Topic implements Selectable {
     @ElementCollection
     @CollectionTable(name = "tb_topic_keywords", joinColumns = @JoinColumn(name = "topic_id"))
     @Column(name = "word")
-    @JsonIgnore
     private Set<String> keyword;
 
     @OneToMany(mappedBy = "topic")
-    @JsonIgnore
     private Set<WorkTopic> workTopic = new LinkedHashSet<>();
 
 }

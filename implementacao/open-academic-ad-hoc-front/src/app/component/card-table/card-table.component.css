@@ -18,6 +18,7 @@
   flex-direction: row;
   border: rgb(199, 199, 199) solid 0.5px;
   background-color: #ffffff;
+  justify-content: center;
 }
 
 .container {
@@ -31,7 +32,11 @@
 .join-controls {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 8px;
   align-items: center;
-  margin: 0 38vw;
+}
+
+.join-controls select {
+  margin: 0;
 }

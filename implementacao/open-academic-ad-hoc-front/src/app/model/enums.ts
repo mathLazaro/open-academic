@@ -34,6 +34,15 @@ export enum Operator {
   LIKE = 'LIKE',
 }
 
+export enum Aggregation {
+  COUNT,
+  COUNT_DISTINCT,
+  SUM,
+  AVG,
+  MAX,
+  MIN,
+}
+
 export function getOperator(value: string): Operator | undefined {
   switch (value) {
     case '=':

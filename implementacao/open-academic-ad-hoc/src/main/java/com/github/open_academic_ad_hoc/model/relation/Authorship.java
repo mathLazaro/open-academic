@@ -35,6 +35,6 @@ public class Authorship implements Selectable {
     @MapsId("institutionId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "institution_id", nullable = false)
-    private Organization institution;
+    private Organization organization;
 
 }

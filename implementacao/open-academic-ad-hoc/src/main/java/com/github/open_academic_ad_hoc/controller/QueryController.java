@@ -18,9 +18,7 @@ public class QueryController {
     @ResponseStatus(HttpStatus.OK)
     public Object selectReport(@RequestBody QueryBuilderDTO request) {
 
-        Pair<String, Object> pair = service.generateReport(request);
-
-        return pair;
+        return service.generateReport(request);
     }
 
 }

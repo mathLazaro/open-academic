@@ -1,9 +1,27 @@
+/* Limita o espaço do dashboard-report e adiciona scroll horizontal se necessário */
+.dashboard {
+  max-width: 90vw;
+  width: 100%;
+  margin: 0 auto;
+  /* padding: 0 5vw; */
+  /* padding-left: 5vw; */
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+.dashboard app-dashboard-report {
+  min-width: 80vw;
+  display: block;
+  /* padding-left: 3vw; */
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
     max-width: 100vw;
+    text-align: center;
 }
 
 div {
@@ -55,4 +73,14 @@ input[type="checkbox"] {
 select[name="table"] {
   width: auto;
   margin-right: 0.5rem;
+}
+
+/* Diminui o tamanho da fonte geral */
+body, div, select, input, button, table, th, td {
+  font-size: 0.9rem;
+}
+
+/* Aumenta o tamanho da fonte dos parágrafos */
+p {
+  font-size: 1.2rem;
 }

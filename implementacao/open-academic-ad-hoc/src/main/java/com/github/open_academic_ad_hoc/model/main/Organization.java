@@ -45,7 +45,7 @@ public class Organization implements Selectable {
     @Column(name = "cited_by_count")
     private Integer citedByCount;
 
-    @OneToMany(mappedBy = "institution")
+    @OneToMany(mappedBy = "organization")
     private Set<Authorship> authorship = new LinkedHashSet<>();
 
     @ManyToMany
