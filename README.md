@@ -58,7 +58,7 @@ Scripts responsáveis pela etapa de ETL:
 - Inserção no banco de dados relacional com uso de `psycopg2`
 
 ---
-## ▶️ Como Executar o Projeto
+## ▶ Como Executar o Projeto
 
 ### Pré-requisitos
 - Node.js (para o front-end Angular)
