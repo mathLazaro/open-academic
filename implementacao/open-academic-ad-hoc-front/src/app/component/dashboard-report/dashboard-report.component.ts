@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ReportResponse } from '../../model/report';
+import { ExportService } from '../../service/export.service';
 
 @Component({
   selector: 'app-dashboard-report',
@@ -8,6 +9,8 @@ import { ReportResponse } from '../../model/report';
   styleUrl: './dashboard-report.component.css',
 })
 export class DashboardReportComponent {
+  constructor(private exportService: ExportService) {}
+
   @Input()
   public response?: ReportResponse;
 
@@ -21,5 +24,13 @@ export class DashboardReportComponent {
 
   get columns(): string[] {
     return Object.keys(this.data[0]) || [];
+  }
+
+  exportCsv() {
+    this.exportService.exportCsv(this.data, this.columns);
+  }
+
+  exportPdf() {
+    this.exportService.exportPdf(this.columns, this.data);
   }
 }

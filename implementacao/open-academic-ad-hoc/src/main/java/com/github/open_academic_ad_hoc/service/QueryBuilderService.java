@@ -150,6 +150,7 @@ public class QueryBuilderService {
                 case Integer i -> getPredicateFilter(i, operator, path.as(Integer.class));
                 case Long l -> getPredicateFilter(l, operator, path.as(Long.class));
                 case LocalDate localDate -> getPredicateFilter(localDate, operator, path.as(LocalDate.class));
+                case Boolean bool -> getPredicateFilter(bool, operator, path.as(Boolean.class));
                 case null, default -> getPredicateFilter((String) value, operator, path.as(String.class));
             };
 

@@ -2,6 +2,10 @@
 <p>{{ sql }}</p>
 
 <h3>Relatório</h3>
+<div>
+  <button (click)="exportCsv()" [disabled]="data.length === 0">Exportar CSV</button
+  ><button (click)="exportPdf()" [disabled]="data.length === 0">Exportar PDF</button>
+</div>
 @if (data.length > 0) {
 <table>
   <thead>
