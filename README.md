@@ -76,7 +76,6 @@ python etl.py
 
 ### 2. Back-end
 ```bash
-### 2. Back-end
 cd implementação/open-academic-ad-hoc/
 ./mvnw spring-boot:run
 ```
